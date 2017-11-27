@@ -42,4 +42,4 @@ class _player_vs_opp_database:
         'referer': 'http://stats.nba.com/scores/'}
         r = requests.get(url, headers=custHeaders)
         r.raise_for_status() 
-        print(r.json())
+        print(r.json()['resultSets'][0]['rowSet'])
