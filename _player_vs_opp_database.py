@@ -34,8 +34,12 @@ class _player_vs_opp_database:
     def fetch_data(self, player, oppTeam):
         playerId = self.get_player_id(player)
         oppTeamId = self.get_team_id(oppTeam)
-        url = "http://stats.nba.com/stats/playergamelogs?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=" + str(oppTeamId) + "&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=0&PlayerID=" + str(playerId) + "&PlusMinus=N&Rank=N&Season=2016-2017&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision="
-        r = requests.get(url)
+        url = "http://stats.nba.com/stats/playergamelogs?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=1610612738&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=0&PlayerID=203518&PlusMinus=N&Rank=N&Season=2016-17&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision="
+        custHeaders = {'user-agent': (
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) ' 
+        'AppleWebKit/537.36 (KHTML, like Gecko) '
+        'Chrome/45.0.2454.101 Safari/537.36'),
+        'referer': 'http://stats.nba.com/scores/'}
+        r = requests.get(url, headers=custHeaders)
         r.raise_for_status() 
         print(r.json())
-        
