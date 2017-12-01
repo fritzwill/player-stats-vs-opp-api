@@ -18,6 +18,7 @@ class PlayerVsOppController(object):
 
     # returns stats for player vs opp given a key for specific player and team (their two ids merged)
     # should not happen unless POST with this key happens first
+    # designed this way so GET_KEY only takes one value
     def GET_KEY(self, key):
         output = {"result":"success"}
         info = self.pvodb.get_player_vs_team(int(key))
@@ -30,9 +31,12 @@ class PlayerVsOppController(object):
         
         return json.dumps(output)
 
-    # user is requesting that we get data for a player vs a specific team and add it to db (that way get can be called)
+    # user is requesting that we get data for a player vs a specific team and add it to db (that way GET can be called)
     # returns the new id that will be used to store the stats in the db
     # new id is in format "pIDtID" where pID and tID are two separate numbers
+    # this must be used eveytime a user wants data that already isnt in playerTeam cache
+    # desgined this way so that GET_KEY only takes in one key (pIDtID) instead of two separate keys: pID and tID
+    # this allows for RESTful service
     def POST(self):
         output = {"result":"success"}
         data = cherrypy.request.body.read().decode()
