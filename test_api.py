@@ -28,6 +28,7 @@ else:
 
 db.fetch_data("Kyrie Irving", "Dallas Mavericks")
 
+print (db.get_team(team_id))
 
 for team in db.teams:
     currTeam = {}
