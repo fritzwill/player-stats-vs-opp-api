@@ -10,7 +10,7 @@ PLAYERPATH = "data/players.json"
 PORT = 51033
 
 def CORS():
-    cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+    cherrypy.response.headers["Access-Control-Allow-Original"] = "*"
     cherrypy.response.headers["Access-Control-Allow-Methods"] = "GET, POST"
     cherrypy.response.headers["Access-Control-Allow-Credentials"] = "*"
 
@@ -27,7 +27,7 @@ def start_service():
     playersCont = PlayersController(pvodb)
     playerVsOppCont = PlayerVsOppController(pvodb)
 
-    dis = cherrypy.dispatch.RouteDispatcher()
+    dis = cherrypy.dispatch.RoutesDispatcher()
     
     dis.connect('teams_get', '/teams/', controller=teamsCont, action='GET', conditions=dict(method=['GET']))
 
@@ -47,9 +47,13 @@ def start_service():
     conf = { 'global' : 
                 {'server.socket_host' : 'student04.cse.nd.edu',
                 'server.socket_port' : PORT},
-            '/' : {'request.dispatch' : dispatcher,
+            '/' : {'request.dispatch' : dis,
                     'tools.CORS.on' : True}
     }
     cherrypy.config.update(conf)
     app = cherrypy.tree.mount(None, config=conf)
     cherrypy.quickstart(app)
+
+if __name__ == '__main__':
+    cherrypy.tools.CORS = cherrypy.Tool('before finalize', CORS)
+    start_service()

@@ -12,12 +12,12 @@ class _player_vs_opp_database:
     def load_players(self, filename):
         with open(filename) as f:
             self.players = json.load(f)
-            print (self.players)
+            #print (self.players)
 
     def load_teams(self, filename):
         with open(filename) as f:
             self.teams = json.load(f)
-            print (self.teams)
+            #print (self.teams)
 
     def get_team(self, teamId):
         for team in self.teams:
