@@ -7,6 +7,7 @@ class _player_vs_opp_database:
     def __init__(self):
         self.players = {}
         self.teams = {}
+        self.playerTeam = {}
     
     def load_players(self, filename):
         with open(filename) as f:
@@ -44,11 +45,19 @@ class _player_vs_opp_database:
             if team['teamName'].lower() == teamName.lower():
                 oppId = team['teamId']
         return oppId
-    
-    def fetch_data(self, player, oppTeam):
-        playerId = self.get_player_id(player)
-        oppTeamId = self.get_team_id(oppTeam)
-        url = "http://stats.nba.com/stats/playergamelogs?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID={}&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=0&PlayerID={}&PlusMinus=N&Rank=N&Season=2017-18&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision=".format(oppTeamId, playerId)
+
+    def get_player_vs_team(self, key):
+        try:
+            data = self.playerTeam[int(key)]
+        except KeyError:
+            data = None
+        return data
+
+    def addPLayerTeam(self, playerTeamId, stats):
+        self.playerTeam[playerTeamId] = stats
+
+    def fetch_data(self, pId, tId):
+        url = "http://stats.nba.com/stats/playergamelogs?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID={}&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=0&PlayerID={}&PlusMinus=N&Rank=N&Season=2017-18&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision=".format(pId, tId)
         custHeaders = {'user-agent': (
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) ' 
         'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -56,4 +65,4 @@ class _player_vs_opp_database:
         'referer': 'http://stats.nba.com/scores/'}
         r = requests.get(url, headers=custHeaders)
         r.raise_for_status() 
-        print(r.json()['resultSets'][0]['rowSet'])
+        return r.json()['resultSets'][0]['rowSet']
