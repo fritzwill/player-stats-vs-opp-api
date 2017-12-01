@@ -10,8 +10,8 @@ PLAYERPATH = "data/players.json"
 PORT = 51033
 
 def CORS():
-    cherrypy.response.headers["Access-Control-Allow-Original"] = "*"
-    cherrypy.response.headers["Access-Control-Allow-Methods"] = "GET, POST"
+    cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+    cherrypy.response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE"
     cherrypy.response.headers["Access-Control-Allow-Credentials"] = "*"
 
 def initDb(pvodb):
@@ -55,5 +55,5 @@ def start_service():
     cherrypy.quickstart(app)
 
 if __name__ == '__main__':
-    cherrypy.tools.CORS = cherrypy.Tool('before finalize', CORS)
+    cherrypy.tools.CORS = cherrypy.Tool('before_finalize', CORS)
     start_service()
