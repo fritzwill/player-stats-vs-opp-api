@@ -7,6 +7,7 @@ from playerVsOpp import PlayerVsOppController
 
 TEAMPATH = "data/teams.json"
 PLAYERPATH = "data/players.json"
+PORT = 51033
 
 def CORS():
     cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
@@ -43,4 +44,12 @@ def start_service():
     dis.connect('palyer_vs_opp_post', '/pvo/', controller=playerVsOppCont, action='POST', conditions=dict(method=['POST']))
 
     
-
+    conf = { 'global' : 
+                {'server.socket_host' : 'student04.cse.nd.edu',
+                'server.socket_port' : PORT},
+            '/' : {'request.dispatch' : dispatcher,
+                    'tools.CORS.on' : True}
+    }
+    cherrypy.config.update(conf)
+    app = cherrypy.tree.mount(None, config=conf)
+    cherrypy.quickstart(app)
