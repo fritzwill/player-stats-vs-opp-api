@@ -68,7 +68,7 @@ class _player_vs_opp_database:
     # return statistics given a player id and team id
     # used to populate the cache in the db (playerTeam)
     def fetch_data(self, pId, tId):
-        url = "http://stats.nba.com/stats/playergamelogs?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID={}&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=0&PlayerID={}&PlusMinus=N&Rank=N&Season=2017-18&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision=".format(pId, tId)
+        url = "http://stats.nba.com/stats/playergamelogs?DateFrom=&DateTo=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID={}&Outcome=&PORound=0&PaceAdjust=N&PerMode=Totals&Period=0&PlayerID={}&PlusMinus=N&Rank=N&Season=2017-18&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&VsConference=&VsDivision=".format(tId, pId)
         custHeaders = {'user-agent': (
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) ' 
         'AppleWebKit/537.36 (KHTML, like Gecko) '

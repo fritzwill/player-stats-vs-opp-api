@@ -40,6 +40,7 @@ class PlayerVsOppController(object):
 
         playerId = data["pId"]
         teamId = data["tId"]
+        print ("{}, {}".format(playerId, teamId))
         stats = self.pvodb.fetch_data(int(playerId), int(teamId))
         playerTeamId = int(str(playerId) + str(teamId))
 
