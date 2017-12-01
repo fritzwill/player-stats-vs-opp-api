@@ -6,6 +6,7 @@ class TeamsController(object):
     def __init__(self, sdb):
         self.sdb = sdb
     
+    # outpus all of the teams and accompaning data
     def GET(self):
         output = {'result' : 'success'}
         teamList = []
@@ -25,6 +26,7 @@ class TeamsController(object):
         return json.dumps(output)
 
 
+    # outputs single team with data depending on key
     def GET_KEY(self, key):
         output = {'result' : 'success'}
         key = int(key)

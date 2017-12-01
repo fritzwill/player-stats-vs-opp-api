@@ -4,7 +4,8 @@ import json
 class PlayersController(object):
     def __init__(self, sdb):
         self.sdb = sdb
-
+    
+    # outputs every single player with accompaning data
     def GET(self):
         output = {'result' : 'success'}
         playerList = []
@@ -23,6 +24,7 @@ class PlayersController(object):
             output['players'] = playerList
         return json.dumps(output)
 
+    # outputs one players with accompaning data depending on key
     def GET_KEY(self, key):
         output = {'result' : 'success'}
         key = int(key)
