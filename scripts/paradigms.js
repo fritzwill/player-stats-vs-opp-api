@@ -50,6 +50,7 @@ function Input(){
     };
 }
 
+<<<<<<< HEAD
 
 function Header(){
     this.createHeader = function(text, id){
@@ -73,4 +74,6 @@ function Paragraph(){
     }
 }
 
+=======
+>>>>>>> 4be4b45ff581f9d732e175cb6c2d94d8926ff038
 
