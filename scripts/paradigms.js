@@ -1,8 +1,4 @@
 
-HEIGHT = 350
-WIDTH = 250
-
-
 function Item(){
     this.addToDocument = function(){
         document.body.appendChild(this.item);
@@ -11,8 +7,8 @@ function Item(){
 
 function Label (){
     this.createLabel = function(text, id){
-        this.item = document.createElement("p");
-        this.item.setAttribute("id", id);
+        this.item = document.createElement("label");
+        this.item.setAttribute("for", id);
         this.item.innerHTML = text;
     },
     this.setText = function(text){
@@ -41,6 +37,40 @@ function Div(){
     this.addToDiv = function(item){
         this.item.appendChild(item.item);
     };
+}
+
+function Input(){
+    this.createInput = function(id){
+        this.item = document.createElement("INPUT");
+        this.item.setAttribute("id", id);
+        this.item.setAttribute("type", "search");
+    },
+    this.getText = function(){
+        return this.item.value;
+    };
+}
+
+
+function Header(){
+    this.createHeader = function(text, id){
+        this.item = document.createElement('h1');
+        this.item.setAttribute("id", id);
+        this.item.innerHTML = text;
+    },
+    this.setText = function(text){
+        this.item.innerHTML = text;
+    }
+}
+
+function Paragraph(){
+    this.createParagraph = function(text, id){
+        this.item = document.createElement('p');
+        this.item.setAttribute("id", id);
+        this.item.innerHTML = text;
+    },
+    this.setText = function(text){
+        this.item.innerHTML = text;
+    }
 }
 
 

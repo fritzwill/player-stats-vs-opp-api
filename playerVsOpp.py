@@ -7,6 +7,7 @@ class PlayerVsOppController(object):
 
     # outputs all stats for all cached player vs opponent data
     def GET(self):
+        print ("IN GET")
         output = {"result":"success"}
         data = []
     
@@ -20,11 +21,15 @@ class PlayerVsOppController(object):
     # should not happen unless POST with this key happens first
     # designed this way so GET_KEY only takes one value
     def GET_KEY(self, key):
+        print ("in get_key")
         output = {"result":"success"}
         info = self.pvodb.get_player_vs_team(int(key))
+        print ("KEY: {}".format(key))
         
         if info is None:
             output["result"] = "error"
+            print ("HI")
+            print ("OK")
             output["message"] = "GET_KEY() in PlayerVsOpp no data"
         else:
             output["data"] = info
@@ -39,9 +44,12 @@ class PlayerVsOppController(object):
     # this allows for RESTful service
     def POST(self):
         output = {"result":"success"}
+        print("in post")
         data = cherrypy.request.body.read().decode()
         data = json.loads(data)
-
+        print ("\n\nstart\n")
+        print (data)
+        print ("\n\n\ndone\n")
         playerId = data["pId"]
         teamId = data["tId"]
         print ("{}, {}".format(playerId, teamId))

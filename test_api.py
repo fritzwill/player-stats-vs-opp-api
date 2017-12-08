@@ -80,5 +80,6 @@ try:
         print ("GET PlayerVsOpponent Passed")
     else:
         print ("GET PlayerVsOpponent Failed")
-except:
+except Exception as e:
+    print (str(e))
     print ("GET PlayerVsOpponent Failed")

@@ -41,3 +41,19 @@ class TeamsController(object):
             output['simpleName'] = description['simpleName']
             output['location'] = description['location']
         return json.dumps(output)
+
+    # outputs single team with data depending on key
+    def GET_NAME(self, name):
+        output = {'result' : 'success'}
+        key = int(self.sdb.get_team_id(name))
+        description = self.sdb.get_team(key)
+        if description is None:
+            output['result'] = 'error'
+            output['message'] = 'team not found'
+        else:
+            output['teamName'] = description['teamName']
+            output['teamId'] = description['teamId']
+            output['abbreviation'] = description['abbreviation']
+            output['simpleName'] = description['simpleName']
+            output['location'] = description['location']
+        return json.dumps(output)
