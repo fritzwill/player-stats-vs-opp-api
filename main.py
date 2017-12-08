@@ -37,11 +37,15 @@ def start_service():
 
     dis.connect('teams_get_key', '/teams/:key', controller=teamsCont, action='GET_KEY', conditions=dict(method=['GET']))
     
+    dis.connect('teams_get_name', '/teams/:key', controller=teamsCont, action='GET_NAME', conditions=dict(method=['GET']))
+
     # players
     dis.connect('players_get', '/players/', controller=playersCont, action='GET', conditions=dict(method=['GET']))
 
     dis.connect('players_get_key', '/players/:key', controller=playersCont, action='GET_KEY', conditions=dict(method=['GET']))
     
+    dis.connect('players_get_name', '/players/:key', controller=playersCont, action='GET_NAME', conditions=dict(method=['GET']))
+
     # players vs opp
     dis.connect('player_vs_opp_get', '/pvo/', controller=playerVsOppCont, action='GET', conditions=dict(method=['GET']))
 

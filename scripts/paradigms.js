@@ -43,4 +43,15 @@ function Div(){
     };
 }
 
+function Input(){
+    this.createInput = function(id){
+        this.item = document.createElement("INPUT");
+        this.item.setAttribute("id", id);
+        this.item.setAttribute("type", "search");
+    },
+    this.getText = function(){
+        return this.item.value;
+    };
+}
+
 

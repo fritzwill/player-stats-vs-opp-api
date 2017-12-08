@@ -39,3 +39,18 @@ class PlayersController(object):
             output['teamId'] = description['teamId']
 
         return json.dumps(output)
+
+    def GET_NAME(self, name):
+        output = {'result' : 'success'}
+        key = int(self.sdb.get_player_id(name))
+        description = self.sdb.get_player(key)
+        if description is None:
+            output['result'] = 'error'
+            output['message'] = 'team not found'
+        else:
+            output['firstName'] = description['firstName']
+            output['lastName'] = description['lastName']
+            output['playerId'] = description['playerId']
+            output['teamId'] = description['teamId']
+
+        return json.dumps(output)
