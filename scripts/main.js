@@ -4,21 +4,12 @@ var teamIds = {};
 var playerIds = {};
 
 function get_player_id(name){
-<<<<<<< HEAD
-=======
-    var res = name.split(" ");
-    var firstName = res[0].toLowerCase();
-    var lastName = res[1].toLowerCase();
-    //console.log(firstName);
-    //console.log(lastName);
->>>>>>> 4be4b45ff581f9d732e175cb6c2d94d8926ff038
     var req = new XMLHttpRequest()
     var get_player_url = URL.concat("players/");
     req.open("GET", get_player_url, true);
     req.onload = function(e){
         response = JSON.parse(req.responseText);
         for (var player in response['players']){
-<<<<<<< HEAD
             var curr = response['players'][player];
             playerIds[curr['playerId']] = [curr['firstName'], curr['lastName']];
             /*if (firstName == response['players'][player]['firstName'].toLowerCase() &&
@@ -26,13 +17,6 @@ function get_player_id(name){
                     //playerId.setText(response['players'][player]['playerId']);
                     pidInput.item.value = response['players'][player]['playerId'];
             }*/
-=======
-            if (firstName == response['players'][player]['firstName'].toLowerCase() &&
-                lastName == response['players'][player]['lastName'].toLowerCase()){
-                    //console.log(response['players'][player]);
-                    return response['players'][player]['playerId'];
-            }
->>>>>>> 4be4b45ff581f9d732e175cb6c2d94d8926ff038
         }
     }
     req.onerror = function(e){
@@ -49,7 +33,6 @@ function get_team_id(name){
     req.open("GET", get_team_url, true);
     req.onload = function(e){
         response = JSON.parse(req.responseText);
-<<<<<<< HEAD
         for (var team in response['teams']){
             var curr = response['teams'][team];
             //console.log(team);
@@ -411,51 +394,10 @@ function updateText(args){
     console.log(args);
 }
 
-=======
-        //console.log(response);
-        for (var team in response['teams']){
-            var curr = response['teams'][team];
-            if (name == curr['teamName'].toLowerCase() ||
-                name == curr['simpleName'].toLowerCase() ||
-                name == curr['abbreviation'].toLowerCase() ||
-                name == curr['location'].toLowerCase()){
-                //console.log(typeof(curr['teamId']));
-                tid = response['teams'][team]['teamId'];
-                //console.log("HI");
-                console.log(tid);
-                return tid;
-                //break;
-                //return (tid);
-            }
-        }
-    }
-    req.onerror = function(e){
-        console.error(req.statusText);
-    }
-    console.log(tid);
-    req.send(tid);
-    console.log("in function, tid: ");
-    console.log(req.send);
-}
-
-function submit(){
-    var name = document.getElementById('first').value.toLowerCase();
-    var teamName = document.getElementById('team').value.toLowerCase();
-    var pid = get_player_id(name);
-    var tid = get_team_id(teamName);
-    var req = new XMLHttpRequest()
-    console.log("HEY");
-    console.log(typeof(pid));
-    console.log(tid);
-    console.log("after TID");
-
-}
->>>>>>> 4be4b45ff581f9d732e175cb6c2d94d8926ff038
 Label.prototype = new Item();
 Button.prototype = new Item();
 Div.prototype = new Item();
 Input.prototype = new Item();
-<<<<<<< HEAD
 Header.prototype = new Item();
 Paragraph.prototype = new Item();
 
@@ -538,41 +480,12 @@ postButton.addClickEventHandler(post, firstInput.value);
 postButton.addToDocument();
 
 submitButton.createButton("View", "submitButton");
-=======
-
-var nameLabel = new Label();
-var firstInput = new Input();
-var teamInput = new Input();
-var submitButton = new Button();
-var searchDiv = new Div();
-var displayDiv = new Div();
-
-nameLabel.createLabel("Name", "nameLabel");
-nameLabel.addToDocument();
-
-firstInput.createInput('first');
-firstInput.addToDocument();
-//console.log("hi");
-teamInput.createInput('team');
-teamInput.addToDocument();
-
-document.getElementById('first').value = "Kyrie Irving";
-document.getElementById('team').value = "Brooklyn Nets";
-
-
-submitButton.createButton("Submit", "submitButton");
->>>>>>> 4be4b45ff581f9d732e175cb6c2d94d8926ff038
 submitButton.addClickEventHandler(submit, firstInput.value);
 submitButton.addToDocument();
 
 searchDiv.createDiv("searchDiv");
-<<<<<<< HEAD
 searchDiv.addToDiv(nameDiv);
 searchDiv.addToDiv(teamDiv);
 searchDiv.addToDiv(postButton);
-=======
-searchDiv.addToDiv(firstInput);
-searchDiv.addToDiv(teamInput);
->>>>>>> 4be4b45ff581f9d732e175cb6c2d94d8926ff038
 searchDiv.addToDiv(submitButton);
 searchDiv.addToDocument();
