@@ -12,11 +12,6 @@ function get_player_id(name){
         for (var player in response['players']){
             var curr = response['players'][player];
             playerIds[curr['playerId']] = [curr['firstName'], curr['lastName']];
-            /*if (firstName == response['players'][player]['firstName'].toLowerCase() &&
-                lastName == response['players'][player]['lastName'].toLowerCase()){
-                    //playerId.setText(response['players'][player]['playerId']);
-                    pidInput.item.value = response['players'][player]['playerId'];
-            }*/
         }
     }
     req.onerror = function(e){
@@ -37,15 +32,6 @@ function get_team_id(name){
             var curr = response['teams'][team];
             //console.log(team);
             teamIds[curr['teamId']] = [curr['teamName'].toLowerCase(), curr['simpleName'].toLowerCase(), curr['abbreviation'].toLowerCase(), curr['location'].toLowerCase()];
-            /*if (name == curr['teamName'].toLowerCase() ||
-                name == curr['simpleName'].toLowerCase() ||
-                name == curr['abbreviation'].toLowerCase() ||
-                name == curr['location'].toLowerCase()){
-                tid = response['teams'][team]['teamId'];
-                document.getElementById("tidInput").value = tid;
-                //teamId.setText(tid);
-                break;
-            }*/
         }
     }
     req.onerror = function(e){
@@ -77,24 +63,21 @@ function get_tid(teamName){
 }
 
 function post(){
-
     var name = document.getElementById('first').value.toLowerCase();
     var teamName = document.getElementById('team').value.toLowerCase();
     get_player_id(name);
     get_team_id(teamName);
     var req = new XMLHttpRequest()
     var pid1 = get_pid(name);
-    //document.getElementById("pidInput").value;
     var tid1 = get_tid(teamName);
     console.log("HI");
     console.log(typeof(pid1));
     console.log(typeof(tid1));
     console.log("BYE");
     if (typeof pid1 == 'undefined' || typeof tid1 == 'undefined'){
-        console.log("IN IF");
+        // player or team not found
         return;
     }
-    //document.getElementById("tidInput").value;
     console.log(pid1);
     console.log(tid1);
     var data ={'pId' : pid1, 'tId' : tid1};
@@ -103,10 +86,7 @@ function post(){
     var post_url = URL.concat("pvo/");
     req.open("POST", post_url, true);
     req.onload = function(e){
-        //console.log("HI");
-        //console.log(req.responseText);
         response = JSON.parse(req.responseText);
-        //console.log(response);
     }
     req.onerror = function(e){
         console.error(req.statusText);
@@ -117,42 +97,6 @@ function post(){
 }
 
 function submit(){
-    /*var name = document.getElementById('first').value.toLowerCase();
-    var teamName = document.getElementById('team').value.toLowerCase();
-    get_player_id(name);
-    get_team_id(teamName);
-    var req = new XMLHttpRequest()
-    var pid1 = get_pid(name);
-    //document.getElementById("pidInput").value;
-    var tid1 = get_tid(teamName);
-    console.log("HI");
-    console.log(typeof(pid1));
-    console.log(typeof(tid1));
-    console.log("BYE");
-    if (typeof pid1 == 'undefined' || typeof tid1 == 'undefined'){
-        console.log("IN IF");
-        return;
-    }
-    //document.getElementById("tidInput").value;
-    console.log(pid1);
-    console.log(tid1);
-    var data ={'pId' : pid1, 'tId' : tid1};
-    var json = JSON.stringify(data);
-    console.log(json)
-    var post_url = URL.concat("pvo/");
-    req.open("POST", post_url, true);
-    req.onload = function(e){
-        //console.log("HI");
-        //console.log(req.responseText);
-        response = JSON.parse(req.responseText);
-        //console.log(response);
-    }
-    req.onerror = function(e){
-        console.error(req.statusText);
-    }
-    req.send(json);
-    //console.log(document.getElementById("tidInput").value);
-    */
     var name = document.getElementById('first').value.toLowerCase();
     var teamName = document.getElementById('team').value.toLowerCase();
     var pid1 = get_pid(name);
@@ -179,18 +123,28 @@ function updateText(args){
         return;
     }
     var body, tab, tr, td, tn, row, col, th;
+    /* Get the body, remove the table in the body, create new table
+       This is done so that the rows do not have to be counted and they can all be removed at once */
     body = document.getElementsByTagName("body")[0];
     body.removeChild(body.lastChild);
     tab = document.createElement("table");
+
     tr = document.createElement('tr');
     td = document.createElement('th');
     tn = document.createTextNode('Player Name');
     td.appendChild(tn);
     tr.appendChild(td);
+
     td = document.createElement('th');
     tn = document.createTextNode('Matchup');
     td.appendChild(tn);
     tr.appendChild(td);
+
+    td = document.createElement('th');
+    tn = document.createTextNode('Date');
+    td.appendChild(tn);
+    tr.appendChild(td);
+
     td = document.createElement('th');
     tn = document.createTextNode('W/L');
     td.appendChild(tn);
@@ -200,10 +154,12 @@ function updateText(args){
     tn = document.createTextNode('MIN');
     td.appendChild(tn);
     tr.appendChild(td);
+
     td = document.createElement('th');
     tn = document.createTextNode('PTS');
     td.appendChild(tn);
     tr.appendChild(td);
+
     td = document.createElement('th');
     tn = document.createTextNode('AST');
     td.appendChild(tn);
@@ -213,10 +169,12 @@ function updateText(args){
     tn = document.createTextNode('FGM');
     td.appendChild(tn);
     tr.appendChild(td);
+
     td = document.createElement('th');
     tn = document.createTextNode('FGA');
     td.appendChild(tn);
     tr.appendChild(td);
+
     td = document.createElement('th');
     tn = document.createTextNode('FG%');
     td.appendChild(tn);
@@ -257,7 +215,6 @@ function updateText(args){
     td.appendChild(tn);
     tr.appendChild(td);
 
-
     td = document.createElement('th');
     tn = document.createTextNode('DREB');
     td.appendChild(tn);
@@ -294,100 +251,130 @@ function updateText(args){
     tr.appendChild(td);
 
     tab.appendChild(tr);
+    /* add a row for each of the games in the response */
     for( row = 0; row  < args.length; row++){
         tr = document.createElement('tr');
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][2]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][8]);
         td.appendChild(tn);
         tr.appendChild(td);
+
+        td = document.createElement('td');
+        tn = document.createTextNode(args[row][7].substr(0,9));
+        td.appendChild(tn);
+        tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][9]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][10].toFixed(2));
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][30]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][23]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][11]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][12]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][13]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][14]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][15]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][16]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][17]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][18]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][19]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][20]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][21]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][22]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][24]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][25]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][26]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][28]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         td = document.createElement('td');
         tn = document.createTextNode(args[row][31]);
         td.appendChild(tn);
         tr.appendChild(td);
+
         tab.appendChild(tr);
     }
     body.appendChild(tab);
@@ -447,11 +434,6 @@ tidInput.addToDocument();
 pidInput.createInput('pidInput');
 pidInput.item.setAttribute('type', 'hidden');
 pidInput.addToDocument();
-
-//playerId.createLabel("pid", "Player ID");
-//teamId.createLabel("tid", "Team ID");
-//playerId.addToDocument();
-//teamId.addToDocument();
 
 
 document.getElementById('first').value = "Kyrie Irving";
